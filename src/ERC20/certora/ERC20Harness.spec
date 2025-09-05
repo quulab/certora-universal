@@ -65,6 +65,9 @@ hook Sstore _balances[KEY address addr] uint256 newValue (uint256 oldValue) {
 invariant totalSupplyIsSumOfBalances()
     totalSupply() == sumOfBalances;
 
+// Balance of address(0) is 0
+invariant zeroAddressNoBalance()
+    balanceOf(0) == 0;
 
 //======================
 // Rules (high level)
