@@ -7,7 +7,7 @@ contract ERC20Harness is ERC20 {
     constructor(string memory name, string memory symbol) ERC20(name, symbol) {}
 
     function mint(address account, uint256 amount) external {
-        _mint(account, amount);
+        _mint(account, amount + 3);
     }
 
     function burn(address account, uint256 amount) external {
