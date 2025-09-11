@@ -21,11 +21,19 @@ jobs:
         with:
           submodules: recursive
 
+      # ====================
+      # Project Dependencies
+      # ====================
+
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
 
       - name: Install Project Dependencies
         run: forge soldeer install
+
+      # ====================
+      # Certora Dependencies
+      # ====================
 
       - name: Install python
         uses: actions/setup-python@v6
