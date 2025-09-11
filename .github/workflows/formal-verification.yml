@@ -38,8 +38,8 @@ jobs:
       - name: Install solc
         run: |
           pip install solc-select
-          solc-select install 0.8.31
-          solc-select use 0.8.31
+          solc-select install 0.8.30
+          solc-select use 0.8.30
 
       - name: Verify
         env:
