@@ -2,14 +2,15 @@ name: Formal Verification
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - '**.sol'
-  pull_request:
-    paths:
-      - '**.sol'
+  # Commented to reduce github CI time limits
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - '**.sol'
+  # pull_request:
+  #   paths:
+  #     - '**.sol'
 
 jobs:
   verify:
