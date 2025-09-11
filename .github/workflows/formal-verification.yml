@@ -27,7 +27,8 @@ jobs:
         uses: actions/setup-java@v5
         with: { 
           java-version: "11", 
-          java-package: jre 
+          java-package: jre,
+          distribution: temurin
         }
 
       # It's recommended to pin the latest certora-cli version available in https://pypi.org/project/certora-cli/
