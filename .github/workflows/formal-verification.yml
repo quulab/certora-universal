@@ -3,6 +3,8 @@ name: Formal Verification
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
       - '**.sol'
   pull_request:
