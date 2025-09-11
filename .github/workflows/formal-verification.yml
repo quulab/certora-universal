@@ -2,18 +2,18 @@ name: Formal Verification
 
 on:
   workflow_dispatch:
-  # push:
-  #   paths:
-  #     - '**.sol'
-  # pull_request:
-  #   paths:
-  #     - '**.sol'
+  push:
+    paths:
+      - '**.sol'
+  pull_request:
+    paths:
+      - '**.sol'
 
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@5
+      - uses: actions/checkout@v5
         with:
           submodules: recursive
 
