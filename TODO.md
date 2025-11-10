@@ -1,17 +1,5 @@
 # TODO
-
-## Reachability
-```
-/*
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Rules: Find and show a path for each method.                                                                        │
-└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-*/
-rule reachability(method f)
-{
-	env e;
-	calldataarg args;
-	f(e,args);
-	satisfy true;
-}
-```
+- openzeppelin rules
+- reentrancy
+- ERC4626
+- ci: setup parallel workflow for multiple contracts
