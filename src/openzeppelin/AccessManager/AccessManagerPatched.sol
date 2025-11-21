@@ -3,12 +3,12 @@
 
 pragma solidity ^0.8.20;
 
-import {IAccessManager} from "@openzeppelin-contracts-5.4.0/access/manager/IAccessManager.sol";
-import {IAccessManaged} from "@openzeppelin-contracts-5.4.0/access/manager/IAccessManaged.sol";
-import {Address} from "@openzeppelin-contracts-5.4.0/utils/Address.sol";
-import {Context} from "@openzeppelin-contracts-5.4.0/utils/Context.sol";
-import {Math} from "@openzeppelin-contracts-5.4.0/utils/math/Math.sol";
-import {Time} from "@openzeppelin-contracts-5.4.0/utils/types/Time.sol";
+import {IAccessManager} from "@openzeppelin-contracts-5.5.0/access/manager/IAccessManager.sol";
+import {IAccessManaged} from "@openzeppelin-contracts-5.5.0/access/manager/IAccessManaged.sol";
+import {Address} from "@openzeppelin-contracts-5.5.0/utils/Address.sol";
+import {Context} from "@openzeppelin-contracts-5.5.0/utils/Context.sol";
+import {Math} from "@openzeppelin-contracts-5.5.0/utils/math/Math.sol";
+import {Time} from "@openzeppelin-contracts-5.5.0/utils/types/Time.sol";
 
 /**
  * @dev AccessManager is a central contract to store the permissions of a system.
