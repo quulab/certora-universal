@@ -21,3 +21,5 @@ Universal set of certora rules.
 | OpenZeppelin | ERC20FlashMint | `certoraRun src/openzeppelin/ERC20FlashMint/certora/ERC20FlashMintHarness.conf` | [Output](https://prover.certora.com/output/8691664/08a836896bca4b5088845605327c66a6/?anonymousKey=d58938604617fd6d28cb8b415f93fbbc5fd712e6) |
 | OpenZeppelin | ERC20Wrapper | `certoraRun src/openzeppelin/ERC20Wrapper/certora/ERC20WrapperHarness.conf` | [Output](https://prover.certora.com/output/8691664/3267f77e49a34d029088362f86d89452/?anonymousKey=09e1c929326f377b3e11cf8e3a65a7eb9e8d819b) |
 | OpenZeppelin | ERC721 | `certoraRun src/openzeppelin/ERC721/certora/ERC721Harness.conf` | [Output](https://prover.certora.com/output/8691664/cca676c73bbf4f35810d4282e19ff98c/?anonymousKey=3d5834e9df2d169b138e7812f5fb9e5ad8eea833) |
+| OpenZeppelin | EnumerableMap | `certoraRun src/openzeppelin/EnumerableMap/certora/EnumerableMapHarness.conf` | [Output](https://prover.certora.com/output/8691664/082f2368561a427e8800b15ee520d310/?anonymousKey=94440088dc59e5ed576b7ce1ead23c931734e6fa) |
+
