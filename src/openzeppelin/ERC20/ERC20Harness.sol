@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {ERC20} from "@openzeppelin-contracts-5.5.0/token/ERC20/ERC20.sol";
+import {ERC20Permit, ERC20} from "@openzeppelin-contracts-5.5.0/token/ERC20/extensions/ERC20Permit.sol";
 
-contract ERC20Harness is ERC20 {
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) {}
+contract ERC20Harness is ERC20Permit {
+    constructor(string memory name, string memory symbol) ERC20(name, symbol) ERC20Permit(name) {}
 
     function mint(address account, uint256 amount) external {
         _mint(account, amount);

@@ -1,7 +1,40 @@
+//===========
+// Helpers
+//===========
+
+// environment
+definition nonzero(address account) returns bool = account != 0;
+definition nonpayable(env e) returns bool = e.msg.value == 0;
+definition nonzerosender(env e) returns bool = nonzero(e.msg.sender);
+definition sanity(env e) returns bool = clock(e) > 0 && clock(e) <= max_uint48;
+
+// math
+definition min(mathint a, mathint b) returns mathint = a < b ? a : b;
+definition max(mathint a, mathint b) returns mathint = a > b ? a : b;
+
+// time
+definition clock(env e) returns mathint = to_mathint(e.block.timestamp);
+definition isSetAndPast(env e, uint48 timepoint) returns bool = timepoint != 0 && to_mathint(timepoint) <= clock(e);
+
+//========
+// Core
+//========
+
 methods {
-    function allowance(address,address) external returns (uint256) envfree;
-    function balanceOf(address) external returns (uint256) envfree;
-    function totalSupply() external returns (uint256) envfree;
+    // ERC20
+    function name()                                external returns (string)  envfree;
+    function symbol()                              external returns (string)  envfree;
+    function decimals()                            external returns (uint8)   envfree;
+    function totalSupply()                         external returns (uint256) envfree;
+    function balanceOf(address)                    external returns (uint256) envfree;
+    function allowance(address,address)            external returns (uint256) envfree;
+    function approve(address,uint256)              external returns (bool);
+    function transfer(address,uint256)             external returns (bool);
+    function transferFrom(address,address,uint256) external returns (bool);
+    // ERC2612
+    function permit(address,address,uint256,uint256,uint8,bytes32,bytes32) external;
+    function nonces(address)    external returns (uint256) envfree;
+    function DOMAIN_SEPARATOR() external returns (bytes32) envfree;
 }
 
 //===============
@@ -9,11 +42,13 @@ methods {
 //===============
 
 definition canIncreaseAllowance(method f) returns bool = 
-	f.selector == sig:approve(address,uint256).selector;
+	f.selector == sig:approve(address,uint256).selector ||
+    f.selector == sig:permit(address,address,uint256,uint256,uint8,bytes32,bytes32).selector;
 
 definition canDecreaseAllowance(method f) returns bool = 
 	f.selector == sig:approve(address,uint256).selector || 
-	f.selector == sig:transferFrom(address,address,uint256).selector;
+	f.selector == sig:transferFrom(address,address,uint256).selector ||
+    f.selector == sig:permit(address,address,uint256,uint256,uint8,bytes32,bytes32).selector;
 
 definition canIncreaseBalance(method f) returns bool = 
 	f.selector == sig:mint(address,uint256).selector || 
@@ -205,14 +240,16 @@ rule onlyHolderOrSpenderCanChangeAllowance() {
     assert (
         allowanceAfter > allowanceBefore
     ) => (
-        (f.selector == sig:approve(address,uint256).selector && e.msg.sender == holder)
+        (f.selector == sig:approve(address,uint256).selector && e.msg.sender == holder) ||
+        (f.selector == sig:permit(address,address,uint256,uint256,uint8,bytes32,bytes32).selector)
     );
 
     assert (
         allowanceAfter < allowanceBefore
     ) => (
         (f.selector == sig:transferFrom(address,address,uint256).selector && e.msg.sender == spender) ||
-        (f.selector == sig:approve(address,uint256).selector && e.msg.sender == holder )
+        (f.selector == sig:approve(address,uint256).selector && e.msg.sender == holder ) ||
+        (f.selector == sig:permit(address,address,uint256,uint256,uint8,bytes32,bytes32).selector)
     );
 }
 
@@ -543,4 +580,50 @@ rule approveDoesNotAffectThirdParty() {
 	uint256 thirdPartyAllowanceAfter = allowance(thirdParty, everyUser);
 
     assert thirdPartyAllowanceBefore == thirdPartyAllowanceBefore;
+}
+
+// `permit()` behaves as expected
+rule permitBehavior(env e) {
+    require nonpayable(e);
+
+    address holder;
+    address spender;
+    uint256 amount;
+    uint256 deadline;
+    uint8 v;
+    bytes32 r;
+    bytes32 s;
+
+    address account1;
+    address account2;
+    address account3;
+
+    // cache state
+    uint256 nonceBefore          = nonces(holder);
+    uint256 otherNonceBefore     = nonces(account1);
+    uint256 otherAllowanceBefore = allowance(account2, account3);
+
+    // sanity: nonce overflow, which possible in theory, is assumed to be impossible in practice
+    require nonceBefore      < max_uint256;
+    require otherNonceBefore < max_uint256;
+
+    // run transaction
+    permit@withrevert(e, holder, spender, amount, deadline, v, r, s);
+
+    // check outcome
+    if (lastReverted) {
+        // Without formally checking the signature, we can't verify exactly the revert causes
+        assert true;
+    } else {
+        // allowance and nonce are updated
+        assert allowance(holder, spender) == amount;
+        assert to_mathint(nonces(holder)) == nonceBefore + 1;
+
+        // deadline was respected
+        assert deadline >= e.block.timestamp;
+
+        // no other allowance or nonce is modified
+        assert nonces(account1)              != otherNonceBefore     => account1 == holder;
+        assert allowance(account2, account3) != otherAllowanceBefore => (account2 == holder && account3 == spender);
+    }
 }
