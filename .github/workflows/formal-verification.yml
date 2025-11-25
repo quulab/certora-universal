@@ -12,8 +12,14 @@ on:
   #   paths:
   #     - '**.sol'
 
+env:
+  CERTORAKEY: ${{ secrets.CERTORAKEY }}
+
 jobs:
-  verify:
+  # ===========================================
+  # Job: setup project and certora dependencies
+  # ===========================================
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -51,7 +57,7 @@ jobs:
 
       # It's recommended to pin the latest certora-cli version available in https://pypi.org/project/certora-cli/
       - name: Install certora cli
-        run: pip install certora-cli==8.1.1
+        run: pip install certora-cli==8.3.1
 
       - name: Install solc
         run: |
@@ -59,7 +65,22 @@ jobs:
           solc-select install 0.8.30
           solc-select use 0.8.30
 
+  # =================
+  # Job: verify ERC20
+  # =================
+  verify_ERC20:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
       - name: Verify
-        env:
-          CERTORAKEY: ${{ secrets.CERTORAKEY }}
-        run: certoraRun src/ERC20/certora/ERC20Harness.conf
+        run: certoraRun src/openzeppelin/ERC20/certora/ERC20Harness.conf
+
+  # ==================
+  # Job: verify ERC721
+  # ==================
+  verify_ERC721:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify
+        run: certoraRun src/openzeppelin/ERC721/certora/ERC721Harness.conf
