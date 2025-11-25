@@ -58,7 +58,7 @@ jobs:
 
       # It's recommended to pin the latest certora-cli version available in https://pypi.org/project/certora-cli/
       - name: Install certora cli
-        run: pip install certora-cli==8.3.1
+        run: pip install certora-cli==8.5.1
 
       - name: Install solc
         run: |
