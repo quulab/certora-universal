@@ -16,10 +16,7 @@ env:
   CERTORAKEY: ${{ secrets.CERTORAKEY }}
 
 jobs:
-  # ===========================================
-  # Job: setup project and certora dependencies
-  # ===========================================
-  setup:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -62,22 +59,14 @@ jobs:
           solc-select install 0.8.30
           solc-select use 0.8.30
 
-  # =================
-  # Job: verify ERC20
-  # =================
-  verify_ERC20:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Verify
+      # =================
+      # Verify ERC20
+      # =================
+      - name: Verify ERC20
         run: certoraRun src/openzeppelin/ERC20/certora/ERC20Harness.conf
 
-  # ==================
-  # Job: verify ERC721
-  # ==================
-  verify_ERC721:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Verify
+      # =================
+      # Verify ERC721
+      # =================
+      - name: Verify ERC721
         run: certoraRun src/openzeppelin/ERC721/certora/ERC721Harness.conf
