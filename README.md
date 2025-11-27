@@ -12,7 +12,7 @@ Universal set of certora rules.
 ## Outputs
 | Category | Instance | Command | Output |
 |---|---|---|---|
-| Common | - | `certoraRun src/common/certora/Common.conf` | [Output](https://prover.certora.com/output/8691664/426d12fa3fc24c859286d34cf723b2e4/?anonymousKey=12e7693b3fe3e6427a0f15007c4b0a610c32983a) |
+| Common | - | `certoraRun src/common/certora/CommonSuccess.conf` | [Output](https://prover.certora.com/output/8691664/cb1d812705f14fb3b51a181f46e8d617/?anonymousKey=a83fb69b773e4600c858956ea8c293b825834a9f) |
 | DEFI | ERC4626 | `certoraRun src/defi/ERC4626/ERC4626.conf` | [Output](https://prover.certora.com/output/8691664/50a9dae4f3ca4ba682ce34a9c84b0e4f/?anonymousKey=a0546bbc16b2ae35fc47a52e8a0bba8e7abcf478) |
 | OpenZeppelin | AccessControl | `certoraRun src/openzeppelin/AccessControl/certora/AccessControlHarness.conf` | [Output](https://prover.certora.com/output/8691664/0af885939fe7424cbdcd38f112219129/?anonymousKey=1bf2ca2797bfce020df686f8bd9a2ea729a64d65) |
 | OpenZeppelin | AccessControlDefaultAdminRules | `certoraRun src/openzeppelin/AccessControlDefaultAdminRules/certora/AccessControlDefaultAdminRulesHarness.conf` | [Output](https://prover.certora.com/output/8691664/39eaad36e249489ea910dcb437bb0071/?anonymousKey=b9d593862d36d7a31311ae346374ef9a6a4b07ff) |
